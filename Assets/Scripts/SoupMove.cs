@@ -11,11 +11,21 @@ public class SoupMove : MonoBehaviour
 
     private Animator anim;
 
+    private enum SoupMovementStates {idle, running, jumping, falling};
+     
+
+    
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        
+        
+
+
+        
     } 
 
    
@@ -35,29 +45,31 @@ public class SoupMove : MonoBehaviour
     }
 
     private void setAnimation(){
+        SoupMovementStates currentState;
+
         if(dirX > 0f){
             sprite.flipX = false;
-            anim.SetBool("running", true);
+            currentState = SoupMovementStates.running;
         }
 
         else if(dirX < 0f){
             sprite.flipX = true;
-            anim.SetBool("running", true);
+            currentState = SoupMovementStates.running;
         } else {
-            anim.SetBool("running", false);
+            currentState = SoupMovementStates.idle;
         }
 
         if(rb.velocity.y > 0.1f){
-            anim.SetBool("jumping", true);
+            currentState = SoupMovementStates.jumping;
         }
 
         else if(rb.velocity.y < -0.1f){
-            anim.SetBool("falling", true);
-        } else {
-            anim.SetBool("falling", false);
-            anim.SetBool("jumping", false);
-            
+            currentState = SoupMovementStates.falling;
         }
+
+        anim.SetInteger("soupState", (int)currentState);
+            
+        
 
     }
 }
