@@ -4,101 +4,119 @@ using UnityEngine;
 
 public class SoupMove : MonoBehaviour
 {
-    private float dirX;
-
+    
+    //components
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private BoxCollider2D coll;
-
-
     private Animator anim;
 
-    private enum SoupMovementStates {idle, running, jumping, falling, slidingRight, slidingLeft};
+    //surface check variables and classes
+    [SerializeField] private LayerMask jumpableSurface;
+    [SerializeField] private LayerMask wall;
+    [SerializeField] private Transform wallCheckLeft;
+    [SerializeField] private Transform wallCheckRight;
 
-    [SerializeField]
-    private LayerMask jumpableSurface;
-
-    [SerializeField]
-    private Sprite wallSlideLeft;
-
-    [SerializeField]
-    private Sprite wallSlideRight;
-
-    [SerializeField] private Transform wallCheck;
-
+    //wall sliding variables
     private bool isWallSliding = false;
     private float wallSlideSpeed = 2f;
-     
+    private string slideType;
 
+    //wall jumping variables and classes
+    [SerializeField] private float wallJumpForce = 18f;
+    [SerializeField] private float wallJumpDirection;
+    [SerializeField] private Vector2 wallJumpAngle;
+    private bool isWallJumping = false;
+
+    //movement variables
+    private bool canJump;
+    private bool canMove = false;
+    private bool groundMove = true;
+    private float dirX;
+    private float moveSpeed = 7f;
+    private float jumpForce = 14f;
+
+    private enum SoupMovementStates { idle, running, jumping, falling, slidingRight, slidingLeft };
     
-
     void Start()
     {
+        //getting components
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         coll = GetComponent<BoxCollider2D>();
+        wallJumpAngle.Normalize();
     }
 
-    SoupMovementStates currentState;
+    //SoupMovementStates currentState;
 
     void Update()
     {
         dirX = Input.GetAxisRaw("Horizontal");
 
-        rb.velocity = new Vector2(dirX * 7f, rb.velocity.y);
+        //wall jumping player movement logic(on a timer
+        //due to invoking canMovemethod
+        if (groundCheck() || canMove) {
+            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+            canMove = false;
+            groundMove = true;
+        }
 
-        if(Input.GetKeyDown("space") && groundCheck()){
-            rb.velocity = new Vector2(dirX * 7f, 14f);
+        //non wall jumping player movement logic
+        if (groundMove)
+        {
+            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
         }
 
 
-        //if (Physics2D.OverlapCircle(wallCheck.position, 0.2f, jumpableSurface))
-        //{
-        //    isWallSliding = true;
-        //    if (dirX > 0f)
-        //    {
-        //        Debug.Log("left wall slide");
-        //        currentState = SoupMovementStates.slidingRight;
-        //        rb.velocity = new Vector2(dirX * 7f, -0.5f);
-        //        if (Input.GetKeyDown("space"))
-        //        {
-        //            rb.velocity = new Vector2(7f, 14f);
-        //        }
-        //    }
-
-        //    if (dirX < 0f)
-        //    {
-        //        Debug.Log("left wall slide");
-        //        currentState = SoupMovementStates.slidingLeft;
-        //        rb.velocity = new Vector2(dirX * 7f, -0.5f);
-        //        if (Input.GetKeyDown("space")) {
-        //            rb.velocity = new Vector2(7f, 14f);
-        //        }
-        //    }
-
-        //    anim.SetInteger("soupState", (int)currentState);
-
-        //}
-
+        //jump logic
+        if (Input.GetKeyDown("space") && groundCheck())
+        {
+            rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
+        }
 
         wallSlide();
+        wallJump();
         setAnimation();
-        
+
 
     }
 
+    private void canMoveMethod()
+    {
+        canMove = true;
+    }
+
+    //checking if the player is in contact with a wall
     private bool isWalled()
     {
-        return Physics2D.OverlapCircle(wallCheck.position, 0.2f, jumpableSurface);
+        if(Physics2D.OverlapCircle(wallCheckLeft.position, 0.2f, wall))
+        {
+            slideType = "leftSlide";
+            return true;
+        }
+        else if(Physics2D.OverlapCircle(wallCheckRight.position, 0.2f, wall))
+        {
+            slideType = "rightSlide";
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
     }
 
+    //allows the player to slide slowly down walls
     private void wallSlide()
     {
-        if(isWalled() && !groundCheck() && dirX != 0)
+        
+        if (isWalled() && !groundCheck() && dirX != 0)
         {
             isWallSliding = true;
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlideSpeed, float.MaxValue));
+            Debug.Log("we sliding");
+            groundMove = false;
         }
 
         else
@@ -107,48 +125,81 @@ public class SoupMove : MonoBehaviour
         }
     }
 
-    //Method to set the animation state of the player sprite
-    private void setAnimation(){
+    //allows the player to wall jump
+    private void wallJump()
+    {
+        if((isWallSliding || isWalled()) && Input.GetKeyDown("space") && !groundCheck()) {
+            isWallJumping = true;
+            Debug.Log("double jump");
+            rb.AddForce(new Vector2(wallJumpForce * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
+            groundMove = false;
+            Invoke(nameof(canMoveMethod), 0.3f);
+        }
+
+        else
+        {
+            isWallJumping = false;
+        }
+    }
+
+    
+    //sets the animation state of the player sprite
+    private void setAnimation()
+    {
         SoupMovementStates currentState = 0;
 
-        if(isWalled() && dirX > 0f && !groundCheck())
+        //wall jumping animation logic
+        if (isWalled() && dirX >= 0f && !groundCheck() && slideType.Equals("rightSlide"))
         {
             currentState = SoupMovementStates.slidingRight;
-            sprite.flipX = true;
+            sprite.flipX = false;
+            wallJumpDirection = -1;
         }
 
-        else if (isWalled() && dirX < 0f && !groundCheck()) {
+        else if (isWalled() && dirX <= 0f && !groundCheck() && slideType.Equals("leftSlide"))
+        {
             currentState = SoupMovementStates.slidingLeft;
             sprite.flipX = false;
+            wallJumpDirection = 1;
         }
 
-        if (dirX > 0f && !isWalled()){
+        //running animation logic
+        if (dirX > 0f && !isWalled())
+        {
             sprite.flipX = false;
             currentState = SoupMovementStates.running;
         }
 
-        else if(dirX < 0f && !isWalled()){
+        else if (dirX < 0f && !isWalled())
+        {
             sprite.flipX = true;
             currentState = SoupMovementStates.running;
         }
 
-        if(rb.velocity.y > 0.1f){
+        //jumping and falling animation logic
+        if (rb.velocity.y > 0.1f)
+        {
             currentState = SoupMovementStates.jumping;
         }
 
-        else if(rb.velocity.y < -0.1f && !isWalled()){
+        else if (rb.velocity.y < -0.1f && !isWalled())
+        {
             currentState = SoupMovementStates.falling;
         }
 
-        if(dirX == 0){
+        //idle animation logic
+        if (dirX == 0)
+        {
             currentState = SoupMovementStates.idle;
         }
 
         anim.SetInteger("soupState", (int)currentState);
     }
 
+    //cheking if the player is on the ground
     private bool groundCheck()
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableSurface);
     }
 }
+
