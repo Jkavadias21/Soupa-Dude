@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hook Straw Override
+  m_Controller: {fileID: 9100000, guid: 6e594cc69476a8b438412b4468ccbf95, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: be1e418ba59cb44febaaf609bd0f29e3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4d9bc0c8aa9d12d4088daed0a1436c5f, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: fc74181ac07c240a2a3fa006f36f0e60, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 97d8483ec1b0f0a4fa0a1a27082ee25b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 3f3bb50921d7441beacca93666261650, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 69d7610201a5122439847560999dde79, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7087c9a910bdc42e1955403a8a03e1c2, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a41de7b17128dd14baadc0d421ba2e6e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: ebb9ab68b24154a03be9b109b1d84762, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ebb9ab68b24154a03be9b109b1d84762, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 730cb56dd57f345bbbe85fa71112da6e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 730cb56dd57f345bbbe85fa71112da6e, type: 2}
