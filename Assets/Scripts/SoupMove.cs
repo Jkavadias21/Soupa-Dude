@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SoupMove : MonoBehaviour
 {
@@ -56,10 +57,14 @@ public class SoupMove : MonoBehaviour
 
         //wall jumping player movement logic(on a timer
         //due to invoking canMovemethod
-        if (groundCheck() || canMove) {
-            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
-            canMove = false;
-            groundMove = true;
+        if (SceneManager.GetActiveScene().name.Equals("Level 2")) {
+            Debug.Log("in level 1");
+            if (groundCheck() || canMove)
+            {
+                rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+                canMove = false;
+                groundMove = true;
+            }
         }
 
         //non wall jumping player movement logic
@@ -75,8 +80,11 @@ public class SoupMove : MonoBehaviour
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
         }
 
-        wallSlide();
-        wallJump();
+        if (SceneManager.GetActiveScene().name.Equals("Level 2")) {
+            wallSlide();
+            wallJump();
+        }
+    
         setAnimation();
 
 
@@ -149,18 +157,21 @@ public class SoupMove : MonoBehaviour
         SoupMovementStates currentState = 0;
 
         //wall jumping animation logic
-        if (isWalled() && dirX >= 0f && !groundCheck() && slideType.Equals("rightSlide"))
+        if (SceneManager.GetActiveScene().name.Equals("Level 2"))
         {
-            currentState = SoupMovementStates.slidingRight;
-            sprite.flipX = false;
-            wallJumpDirection = -1;
-        }
+            if (isWalled() && dirX >= 0f && !groundCheck() && slideType.Equals("rightSlide"))
+            {
+                currentState = SoupMovementStates.slidingRight;
+                sprite.flipX = false;
+                wallJumpDirection = -1;
+            }
 
-        else if (isWalled() && dirX <= 0f && !groundCheck() && slideType.Equals("leftSlide"))
-        {
-            currentState = SoupMovementStates.slidingLeft;
-            sprite.flipX = false;
-            wallJumpDirection = 1;
+            else if (isWalled() && dirX <= 0f && !groundCheck() && slideType.Equals("leftSlide"))
+            {
+                currentState = SoupMovementStates.slidingLeft;
+                sprite.flipX = false;
+                wallJumpDirection = 1;
+            }
         }
 
         //running animation logic
