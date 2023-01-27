@@ -15,6 +15,7 @@ public class SetCupType : MonoBehaviour
 
     public void Awake()
     {
+        Debug.Log("level 2");
 
         if (SceneManager.GetActiveScene().name.Equals("Level 2"))
         {

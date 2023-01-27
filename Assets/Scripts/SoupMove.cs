@@ -60,8 +60,6 @@ public class SoupMove : MonoBehaviour
         //wall jumping player movement logic(on a timer
         //due to invoking canWallMovemethod
         if (!SceneManager.GetActiveScene().name.Equals("Level 1")) {
-            Debug.Log("in level 1");
-
             if (groundCheck() || canWallMove)
             {
                 rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
@@ -160,7 +158,7 @@ public class SoupMove : MonoBehaviour
         if((isWallSliding || isWalled()) && Input.GetKeyDown("space") && !groundCheck()) {
             isWallJumping = true;
             //smoother wall jump
-            rb.velocity = new Vector2(4f, 16f);
+            //rb.velocity = new Vector2(4f, 16f);
             //cool ledge boost mechanice(like celeste)
             rb.AddForce(new Vector2(wallJumpForce * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
             canMove = false;
