@@ -31,11 +31,13 @@ public class SoupMove : MonoBehaviour
 
     //movement variables
     private bool canJump;
-    private bool canMove = false;
-    private bool groundMove = true;
+    private bool canWallMove = false;
+    private bool canMove = true;
     private float dirX;
     private float moveSpeed = 7f;
     private float jumpForce = 14f;
+
+    
 
     private enum SoupMovementStates { idle, running, jumping, falling, slidingRight, slidingLeft };
     
@@ -56,19 +58,20 @@ public class SoupMove : MonoBehaviour
         dirX = Input.GetAxisRaw("Horizontal");
 
         //wall jumping player movement logic(on a timer
-        //due to invoking canMovemethod
-        if (SceneManager.GetActiveScene().name.Equals("Level 2")) {
+        //due to invoking canWallMovemethod
+        if (!SceneManager.GetActiveScene().name.Equals("Level 1")) {
             Debug.Log("in level 1");
-            if (groundCheck() || canMove)
+
+            if (groundCheck() || canWallMove)
             {
                 rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
-                canMove = false;
-                groundMove = true;
+                canWallMove = false;
+                canMove = true;
             }
         }
 
         //non wall jumping player movement logic
-        if (groundMove)
+        if (canMove)
         {
             rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
         }
@@ -78,10 +81,11 @@ public class SoupMove : MonoBehaviour
         if (Input.GetKeyDown("space") && groundCheck())
         {
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
+            //coll.size = new Vector2(1.84f, 1.65f);
         }
 
-        if (SceneManager.GetActiveScene().name.Equals("Level 2")) {
-            wallSlide();
+        if (!SceneManager.GetActiveScene().name.Equals("Level 1")) {
+            wallSlideCheck();
             wallJump();
         }
     
@@ -90,9 +94,9 @@ public class SoupMove : MonoBehaviour
 
     }
 
-    private void canMoveMethod()
+    private void canWallMoveMethod()
     {
-        canMove = true;
+        canWallMove = true;
     }
 
     //checking if the player is in contact with a wall
@@ -116,15 +120,24 @@ public class SoupMove : MonoBehaviour
     }
 
     //allows the player to slide slowly down walls
-    private void wallSlide()
+    private void wallSlideCheck()
     {
-        
-        if (isWalled() && !groundCheck() && dirX != 0)
+        if (isWalled() && !groundCheck())
         {
-            isWallSliding = true;
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlideSpeed, float.MaxValue));
-            Debug.Log("we sliding");
-            groundMove = false;
+            if (dirX > 0f && slideType.Equals("rightSlide"))
+            {
+                wallSlide();
+            }
+
+            else if (dirX < 0f && slideType.Equals("leftSlide"))
+            {
+                wallSlide();
+            }
+
+            else
+            {
+                canMove = true;
+            }
         }
 
         else
@@ -133,15 +146,25 @@ public class SoupMove : MonoBehaviour
         }
     }
 
-    //allows the player to wall jump
+    //slows player when in contact with a wall
+    private void wallSlide()
+    {
+        isWallSliding = true;
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlideSpeed, float.MaxValue));
+        canMove = false;
+    }
+
+    //allows player to jump when wall sliding
     private void wallJump()
     {
         if((isWallSliding || isWalled()) && Input.GetKeyDown("space") && !groundCheck()) {
             isWallJumping = true;
-            Debug.Log("double jump");
+            //smoother wall jump
+            rb.velocity = new Vector2(4f, 16f);
+            //cool ledge boost mechanice(like celeste)
             rb.AddForce(new Vector2(wallJumpForce * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
-            groundMove = false;
-            Invoke(nameof(canMoveMethod), 0.3f);
+            canMove = false;
+            Invoke(nameof(canWallMoveMethod), 0.3f);
         }
 
         else
@@ -157,7 +180,8 @@ public class SoupMove : MonoBehaviour
         SoupMovementStates currentState = 0;
 
         //wall jumping animation logic
-        if (SceneManager.GetActiveScene().name.Equals("Level 2"))
+        //(only happens when playe is not in level 1)
+        if (!SceneManager.GetActiveScene().name.Equals("Level 1"))
         {
             if (isWalled() && dirX >= 0f && !groundCheck() && slideType.Equals("rightSlide"))
             {

@@ -13,7 +13,7 @@ public class SetCupType : MonoBehaviour
         overrider.SetAnimation(overrideControllers[value]);
     }
 
-    public void Update()
+    public void Awake()
     {
 
         if (SceneManager.GetActiveScene().name.Equals("Level 2"))
