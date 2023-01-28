@@ -7,6 +7,7 @@ public class AnimatorOverrider : MonoBehaviour
     private Animator animator;
 
     private void Awake() {
+        Debug.Log("awake");
         animator = GetComponent<Animator>();
     }
 
