@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class SoupMove : MonoBehaviour
 {
-    
     //components
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
