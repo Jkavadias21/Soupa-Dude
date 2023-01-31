@@ -16,6 +16,7 @@ public class SoupMove : MonoBehaviour
     [SerializeField] private LayerMask wall;
     [SerializeField] private Transform wallCheckLeft;
     [SerializeField] private Transform wallCheckRight;
+    [SerializeField] private LayerMask wallFloor;
 
     //wall sliding variables
     private bool isWallSliding = false;
@@ -99,12 +100,12 @@ public class SoupMove : MonoBehaviour
     //checking if the player is in contact with a wall
     private bool isWalled()
     {
-        if(Physics2D.OverlapCircle(wallCheckLeft.position, 0.2f, wall))
+        if(Physics2D.OverlapCircle(wallCheckLeft.position, 0.2f, wall | wallFloor))
         {
             slideType = "leftSlide";
             return true;
         }
-        else if(Physics2D.OverlapCircle(wallCheckRight.position, 0.2f, wall))
+        else if(Physics2D.OverlapCircle(wallCheckRight.position, 0.2f, wall|wallFloor))
         {
             slideType = "rightSlide";
             return true;
@@ -231,7 +232,8 @@ public class SoupMove : MonoBehaviour
     //cheking if the player is on the ground
     private bool groundCheck()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableSurface);
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableSurface | wallFloor);
+            
     }
 }
 
