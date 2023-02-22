@@ -30,13 +30,13 @@ public class SoupMove : MonoBehaviour
     private bool isWallJumping = false;
 
     //movement variables
-    private bool canJump;
+    private bool canDoubleJump = false;
     private bool canWallMove = false;
     private bool canMove = true;
     private float dirX;
     private float moveSpeed = 7f;
     private float jumpForce = 14f;
-
+    private bool isJumping = false;
     
 
     private enum SoupMovementStates { idle, running, jumping, falling, slidingRight, slidingLeft };
@@ -74,13 +74,25 @@ public class SoupMove : MonoBehaviour
             rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
         }
 
-
         //jump logic
-        if (Input.GetKeyDown("space") && groundCheck())
+        if ((Input.GetKeyDown("space") && groundCheck()))
         {
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
+            canDoubleJump = true;
+            isJumping = true;
             //coll.size = new Vector2(1.84f, 1.65f);
         }
+
+
+
+        //double jump logic
+        if((Input.GetKey("f") && canDoubleJump)){
+            rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
+            canDoubleJump = false;
+            isJumping = true;
+        }
+
+        Debug.Log(dirX);
 
         if (!SceneManager.GetActiveScene().name.Equals("Level 1")) {
             wallSlideCheck();
@@ -122,6 +134,7 @@ public class SoupMove : MonoBehaviour
     {
         if (isWalled() && !groundCheck())
         {
+            canDoubleJump = true;
             if (dirX > 0f && slideType.Equals("rightSlide"))
             {
                 wallSlide();
@@ -221,7 +234,7 @@ public class SoupMove : MonoBehaviour
         }
 
         //idle animation logic
-        if (dirX == 0)
+        if (dirX == 0 && !isJumping)
         {
             currentState = SoupMovementStates.idle;
         }
@@ -232,7 +245,16 @@ public class SoupMove : MonoBehaviour
     //cheking if the player is on the ground
     private bool groundCheck()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableSurface | wallFloor);
+        if(Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableSurface | wallFloor)){
+            canDoubleJump = true;
+            isJumping = false;
+            return true;
+        } 
+       
+        else {
+            return false;
+        }
+        
             
     }
 }
