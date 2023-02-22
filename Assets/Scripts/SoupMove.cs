@@ -37,9 +37,11 @@ public class SoupMove : MonoBehaviour
     private float moveSpeed = 7f;
     private float jumpForce = 14f;
     private bool isJumping = false;
+
+    private bool doubleJumping = false;
     
 
-    private enum SoupMovementStates { idle, running, jumping, falling, slidingRight, slidingLeft };
+    private enum SoupMovementStates { idle, running, jumping, falling, slidingRight, slidingLeft, doubleJump};
     
     void Start()
     {
@@ -88,11 +90,11 @@ public class SoupMove : MonoBehaviour
         //double jump logic
         if((Input.GetKey("f") && canDoubleJump)){
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
+            doubleJumping = true;
             canDoubleJump = false;
             isJumping = true;
+            
         }
-
-        Debug.Log(dirX);
 
         if (!SceneManager.GetActiveScene().name.Equals("Level 1")) {
             wallSlideCheck();
@@ -190,6 +192,8 @@ public class SoupMove : MonoBehaviour
     {
         SoupMovementStates currentState = 0;
 
+        
+
         //wall jumping animation logic
         //(only happens when playe is not in level 1)
         if (!SceneManager.GetActiveScene().name.Equals("Level 1"))
@@ -221,7 +225,13 @@ public class SoupMove : MonoBehaviour
             sprite.flipX = true;
             currentState = SoupMovementStates.running;
         }
-
+        
+        //idle animation logic
+        if (dirX == 0)
+        {
+            currentState = SoupMovementStates.idle;
+        }
+        
         //jumping and falling animation logic
         if (rb.velocity.y > 0.1f)
         {
@@ -230,14 +240,17 @@ public class SoupMove : MonoBehaviour
 
         else if (rb.velocity.y < -0.1f && !isWalled())
         {
+            doubleJumping = false;
             currentState = SoupMovementStates.falling;
         }
-
-        //idle animation logic
-        if (dirX == 0 && !isJumping)
-        {
-            currentState = SoupMovementStates.idle;
+        
+        //double jumping animation logic
+        if(doubleJumping){
+            currentState = SoupMovementStates.doubleJump;
+            Debug.Log(currentState);
         }
+
+        
 
         anim.SetInteger("soupState", (int)currentState);
     }
