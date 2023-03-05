@@ -105,7 +105,7 @@ public class SoupMove : MonoBehaviour
             slideType = "leftSlide";
             return true;
         }
-        else if(Physics2D.OverlapCircle(wallCheckRight.position, 0.2f, wall|wallFloor))
+        else if(Physics2D.OverlapCircle(wallCheckRight.position, 0.2f, wall| wallFloor))
         {
             slideType = "rightSlide";
             return true;
