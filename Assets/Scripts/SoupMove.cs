@@ -89,8 +89,8 @@ public class SoupMove : MonoBehaviour
 
 
         //double jump logic
-        if(Input.GetKeyDown("f") && canDoubleJump && !isWallSliding){
-            Debug.Log("here");
+        if(Input.GetKeyDown("f") && canDoubleJump && !isWallSliding)
+        {
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
             doubleJumping = true;
             canDoubleJump = false;
@@ -119,11 +119,13 @@ public class SoupMove : MonoBehaviour
         if(Physics2D.OverlapCircle(wallCheckLeft.position, 0.2f, wall | wallFloor))
         {
             slideType = "leftSlide";
+            //canDoubleJump = false;
             return true;
         }
         else if(Physics2D.OverlapCircle(wallCheckRight.position, 0.2f, wall| wallFloor))
         {
             slideType = "rightSlide";
+            //canDoubleJump = false;
             return true;
         }
 
@@ -188,13 +190,12 @@ public class SoupMove : MonoBehaviour
         }
     }
 
-    
+    bool wasFalling;
+
     //sets the animation state of the player sprite
     private void setAnimation()
     {
         SoupMovementStates currentState = 0;
-
-        
 
         //wall jumping animation logic
         //(only happens when player is not in level 1)
@@ -204,6 +205,7 @@ public class SoupMove : MonoBehaviour
             {
                 currentState = SoupMovementStates.slidingRight;
                 sprite.flipX = false;
+                doubleJumping = false;
                 wallJumpDirection = -1;
             }
 
@@ -211,51 +213,63 @@ public class SoupMove : MonoBehaviour
             {
                 currentState = SoupMovementStates.slidingLeft;
                 sprite.flipX = false;
+                doubleJumping = false;
                 wallJumpDirection = 1;
             }
         }
 
         //running animation logic
-        if (dirX > 0f && !isWalled())
+        if (dirX > 0f && groundCheck())
         {
             sprite.flipX = false;
             currentState = SoupMovementStates.running;
         }
 
-        else if (dirX < 0f && !isWalled())
+        else if (dirX < 0f && groundCheck())
         {
             sprite.flipX = true;
             currentState = SoupMovementStates.running;
         }
         
         //idle animation logic
-        if (dirX == 0)
+        if (dirX == 0 && rb.velocity.y == 0)
         {
             currentState = SoupMovementStates.idle;
         }
-        
+
         //jumping and falling animation logic
-        if (rb.velocity.y > 0.1f)
+        if (rb.velocity.y > 0.1f && !doubleJumping && !isWalled())
         {
             currentState = SoupMovementStates.jumping;
         }
 
-        else if (rb.velocity.y < -0.1f && !isWalled())
+        else if (rb.velocity.y < -0.1f && (!isWalled() || isWalled() && dirX == 0))
         {
             doubleJumping = false;
             currentState = SoupMovementStates.falling;
         }
-        
+
         //double jumping animation logic
-        if(doubleJumping){
+        if (doubleJumping && !isWalled())
+        {
             currentState = SoupMovementStates.doubleJump;
-            //Debug.Log(currentState);
+            wasFalling = false;
+            if(dirX < -0.1f)
+            {
+                sprite.flipX = true;
+            } else
+            {
+                sprite.flipX = false;
+            }
+            
         }
 
-        
 
+        Debug.Log(currentState);
         anim.SetInteger("soupState", (int)currentState);
     }
+
+    
 
     //cheking if the player is on the ground
     private bool groundCheck()

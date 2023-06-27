@@ -7,6 +7,7 @@ public class SetCupType : MonoBehaviour
 {
     [SerializeField] private AnimatorOverrideController[] overrideControllers;
     [SerializeField] private AnimatorOverrider overrider;
+    
 
     public void Set(int value)
     {
@@ -16,10 +17,10 @@ public class SetCupType : MonoBehaviour
     public void Update()
     {
         //Debug.Log("level 2");
-
+        
         if (!SceneManager.GetActiveScene().name.Equals("Level 1"))
         {
-            Set(0);
+            Set(1);
         }
         
     }
