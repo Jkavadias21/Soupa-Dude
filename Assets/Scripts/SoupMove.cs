@@ -73,6 +73,7 @@ public class SoupMove : MonoBehaviour
         //non wall jumping player movement logic
         if (canMove)
         {
+            
             rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
         }
 
@@ -88,7 +89,8 @@ public class SoupMove : MonoBehaviour
 
 
         //double jump logic
-        if((Input.GetKey("f") && canDoubleJump)){
+        if(Input.GetKeyDown("f") && canDoubleJump && !isWallSliding){
+            Debug.Log("here");
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
             doubleJumping = true;
             canDoubleJump = false;
@@ -195,7 +197,7 @@ public class SoupMove : MonoBehaviour
         
 
         //wall jumping animation logic
-        //(only happens when playe is not in level 1)
+        //(only happens when player is not in level 1)
         if (!SceneManager.GetActiveScene().name.Equals("Level 1"))
         {
             if (isWalled() && dirX >= 0f && !groundCheck() && slideType.Equals("rightSlide"))
@@ -247,7 +249,7 @@ public class SoupMove : MonoBehaviour
         //double jumping animation logic
         if(doubleJumping){
             currentState = SoupMovementStates.doubleJump;
-            Debug.Log(currentState);
+            //Debug.Log(currentState);
         }
 
         

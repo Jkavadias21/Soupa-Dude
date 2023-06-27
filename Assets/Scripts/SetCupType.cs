@@ -15,7 +15,7 @@ public class SetCupType : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log("level 2");
+        //Debug.Log("level 2");
 
         if (!SceneManager.GetActiveScene().name.Equals("Level 1"))
         {
