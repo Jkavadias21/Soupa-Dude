@@ -20,7 +20,7 @@ public class SetCupType : MonoBehaviour
         
         if (!SceneManager.GetActiveScene().name.Equals("Level 1"))
         {
-            Set(1);
+            Set(0);
         }
         
     }

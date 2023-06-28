@@ -54,6 +54,10 @@ public class SoupMove : MonoBehaviour
     }
 
     //SoupMovementStates currentState;
+    Vector2 dashForceRight = new Vector2(15, 0);
+    Vector2 dashForceLeft = new Vector2(-15, 0);
+    bool isDashing = false;
+    bool canDash = true;
 
     void Update()
     {
@@ -70,10 +74,38 @@ public class SoupMove : MonoBehaviour
             }
         }
 
-        //non wall jumping player movement logic
-        if (canMove)
+        //dash logic
+        if (Input.GetKeyDown("g") && canDash)
         {
+            Debug.Log("dashing");
+            rb.velocity = new Vector2(0, 0);
             
+            if (dirX < -0.1f)
+            {
+                rb.AddForce(dashForceLeft, ForceMode2D.Impulse);
+            }
+
+            else if(dirX > 0.1f)
+            {
+                rb.AddForce(dashForceRight, ForceMode2D.Impulse);
+            }
+
+            else
+            {
+                rb.AddForce(dashForceRight, ForceMode2D.Impulse);
+            }
+
+            rb.gravityScale = 0;
+            Invoke("addGravity", 0.25f);
+            canDash = false;
+
+            isDashing = true;
+
+        }
+
+        //non wall jumping player movement logic
+        if (canMove && !isDashing)
+        {
             rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
         }
 
@@ -108,24 +140,31 @@ public class SoupMove : MonoBehaviour
 
     }
 
-    private void canWallMoveMethod()
+    public void addGravity()
+    {
+        rb.gravityScale = 4.5f;
+        rb.velocity = new Vector2(1, 0);
+        isDashing = false;
+    }
+
+    public void canWallMoveMethod()
     {
         canWallMove = true;
     }
 
-    //checking if the player is in contact with a wall
-    private bool isWalled()
+    //check if the player is in contact with a wall
+    public bool isWalled()
     {
         if(Physics2D.OverlapCircle(wallCheckLeft.position, 0.2f, wall | wallFloor))
         {
             slideType = "leftSlide";
-            //canDoubleJump = false;
+            canDash = true;
             return true;
         }
         else if(Physics2D.OverlapCircle(wallCheckRight.position, 0.2f, wall| wallFloor))
         {
             slideType = "rightSlide";
-            //canDoubleJump = false;
+            canDash = true;
             return true;
         }
 
@@ -135,8 +174,8 @@ public class SoupMove : MonoBehaviour
         }
     }
 
-    //allows the player to slide slowly down walls
-    private void wallSlideCheck()
+    //wall slide logic
+    public void wallSlideCheck()
     {
         if (isWalled() && !groundCheck())
         {
@@ -163,7 +202,7 @@ public class SoupMove : MonoBehaviour
         }
     }
 
-    //slows player when in contact with a wall
+    //slow walled player
     private void wallSlide()
     {
         isWallSliding = true;
@@ -171,7 +210,7 @@ public class SoupMove : MonoBehaviour
         canMove = false;
     }
 
-    //allows player to jump when wall sliding
+    //wall slide jumping logic
     private void wallJump()
     {
         if((isWallSliding || isWalled()) && Input.GetKeyDown("space") && !groundCheck()) {
@@ -192,7 +231,7 @@ public class SoupMove : MonoBehaviour
 
     bool wasFalling;
 
-    //sets the animation state of the player sprite
+    //set the animation state of the player sprite
     private void setAnimation()
     {
         SoupMovementStates currentState = 0;
@@ -264,8 +303,6 @@ public class SoupMove : MonoBehaviour
             
         }
 
-
-        Debug.Log(currentState);
         anim.SetInteger("soupState", (int)currentState);
     }
 
@@ -277,6 +314,7 @@ public class SoupMove : MonoBehaviour
         if(Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableSurface | wallFloor)){
             canDoubleJump = true;
             isJumping = false;
+            canDash = true;
             return true;
         } 
        
