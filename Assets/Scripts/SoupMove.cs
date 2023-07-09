@@ -77,7 +77,6 @@ public class SoupMove : MonoBehaviour
         //dash logic
         if (Input.GetKeyDown("g") && canDash)
         {
-            Debug.Log("dashing");
             rb.velocity = new Vector2(0, 0);
             
             if (dirX < -0.1f)
@@ -121,7 +120,7 @@ public class SoupMove : MonoBehaviour
 
 
         //double jump logic
-        if(Input.GetKeyDown("f") && canDoubleJump && !isWallSliding)
+        if(Input.GetKeyDown("f") && canDoubleJump && !isWallSliding && !groundCheck())
         {
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
             doubleJumping = true;
@@ -143,7 +142,14 @@ public class SoupMove : MonoBehaviour
     public void addGravity()
     {
         rb.gravityScale = 4.5f;
-        rb.velocity = new Vector2(1, 0);
+        if (dirX > 0.1f)
+        {
+            rb.velocity = new Vector2(1, 0);
+        }
+        else
+        {
+            rb.velocity = new Vector2(-1, 0);
+        }
         isDashing = false;
     }
 
