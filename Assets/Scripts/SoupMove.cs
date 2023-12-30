@@ -61,6 +61,7 @@ public class SoupMove : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(canWallJump);
         dirX = Input.GetAxisRaw("Horizontal");
 
         //wall jumping player movement logic(on a timer
@@ -109,7 +110,7 @@ public class SoupMove : MonoBehaviour
         }
 
         //jump logic
-        if ((Input.GetKeyDown("space") && groundCheck()))
+        if (Input.GetKeyDown("space") && groundCheck())
         {
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
             canDoubleJump = true;
@@ -125,8 +126,7 @@ public class SoupMove : MonoBehaviour
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
             doubleJumping = true;
             canDoubleJump = false;
-            isJumping = true;
-            
+            isJumping = true;            
         }
 
         if (!SceneManager.GetActiveScene().name.Equals("Level 1")) {
@@ -219,20 +219,27 @@ public class SoupMove : MonoBehaviour
     //wall slide jumping logic
     private void wallJump()
     {
-        if((isWallSliding || isWalled()) && Input.GetKeyDown("space") && !groundCheck()) {
+        if((isWallSliding || isWalled()) && Input.GetKeyDown("space") && !groundCheck() && canWallJump) {
             isWallJumping = true;
-            //smoother wall jump
-            //rb.velocity = new Vector2(4f, 16f);
-            //cool ledge boost mechanice(like celeste)
+            Debug.Log(wallJumpAngle + "" + wallJumpDirection);
             rb.AddForce(new Vector2(wallJumpForce * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
             canMove = false;
             Invoke(nameof(canWallMoveMethod), 0.3f);
+            canWallJump = false;
+            //wall jump delay, lower timer means easier celeste jumping
+            //will feel smoother if you delay the time before player can double jump after leaving the wall
+            Invoke("enableWallJump", 0.4f);
         }
 
         else
         {
             isWallJumping = false;
         }
+    }
+    bool canWallJump = true;
+
+    public void enableWallJump(){
+        canWallJump = true;
     }
 
     bool wasFalling;
