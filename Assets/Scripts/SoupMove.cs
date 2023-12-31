@@ -39,12 +39,12 @@ public class SoupMove : MonoBehaviour
     private bool isJumping = false;
 
     private bool doubleJumping = false;
+    bool canWallJump = true;
     
 
     private enum SoupMovementStates { idle, running, jumping, falling, slidingRight, slidingLeft, doubleJump};
     
-    void Start()
-    {
+    void Start() {
         //getting components
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
@@ -61,164 +61,155 @@ public class SoupMove : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(canWallJump);
         dirX = Input.GetAxisRaw("Horizontal");
 
-        //wall jumping player movement logic(on a timer
-        //due to invoking canWallMovemethod
-        if (!SceneManager.GetActiveScene().name.Equals("Level 1")) {
-            if (groundCheck() || canWallMove)
-            {
+        //player movement
+        wallJumpMove();
+        walk();
+        dash();
+        jump();
+        doubleJump();
+        
+        setAnimation();
+
+        activateAbilities();
+    }
+
+
+    //-----------------------------------------movement--------------------------------------------------
+
+    //activate abilities associated with current level 
+    public void activateAbilities() {
+        if(!SceneManager.GetActiveScene().name.Equals("Level 1")) {
+            wallSlideCheck();
+            wallJump();
+        }
+    }
+
+    //non wall jumping player movement logic
+    public void walk() {
+        if(canMove && !isDashing) {
+            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+        }
+    }
+    
+    //wall jumping player movement logic
+    public void wallJumpMove(){
+        if(!SceneManager.GetActiveScene().name.Equals("Level 1")) {
+            if(groundCheck() || canWallMove) {
                 rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
                 canWallMove = false;
                 canMove = true;
             }
         }
+    }
 
-        //dash logic
-        if (Input.GetKeyDown("g") && canDash)
-        {
+    //dash logic
+    public void dash(){
+        if (Input.GetKeyDown("g") && canDash){
             rb.velocity = new Vector2(0, 0);
             
-            if (dirX < -0.1f)
-            {
+            if (dirX < -0.1f){
                 rb.AddForce(dashForceLeft, ForceMode2D.Impulse);
             }
 
-            else if(dirX > 0.1f)
-            {
+            else if(dirX > 0.1f){
                 rb.AddForce(dashForceRight, ForceMode2D.Impulse);
             }
 
-            else
-            {
+            else{
                 rb.AddForce(dashForceRight, ForceMode2D.Impulse);
             }
 
             rb.gravityScale = 0;
             Invoke("addGravity", 0.25f);
             canDash = false;
-
             isDashing = true;
-
         }
-
-        //non wall jumping player movement logic
-        if (canMove && !isDashing)
-        {
-            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
-        }
-
-        //jump logic
-        if (Input.GetKeyDown("space") && groundCheck())
-        {
+    }
+    
+    //jump logic
+    public void jump(){
+        if (Input.GetKeyDown("space") && groundCheck()){
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
             canDoubleJump = true;
             isJumping = true;
-            //coll.size = new Vector2(1.84f, 1.65f);
         }
+    }
 
-
-
-        //double jump logic
-        if(Input.GetKeyDown("f") && canDoubleJump && !isWallSliding && !groundCheck())
-        {
+    //double jump logic
+    public void doubleJump(){
+        
+        if(Input.GetKeyDown("f") && canDoubleJump && !isWallSliding && !groundCheck()) {
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
             doubleJumping = true;
             canDoubleJump = false;
             isJumping = true;            
         }
-
-        if (!SceneManager.GetActiveScene().name.Equals("Level 1")) {
-            wallSlideCheck();
-            wallJump();
-        }
-    
-        setAnimation();
-
-
     }
 
-    public void addGravity()
-    {
+    //reapply gravity to the player
+    public void addGravity(){
         rb.gravityScale = 4.5f;
-        if (dirX > 0.1f)
-        {
+        if (dirX > 0.1f) {
             rb.velocity = new Vector2(1, 0);
         }
-        else
-        {
+        else {
             rb.velocity = new Vector2(-1, 0);
         }
         isDashing = false;
     }
 
-    public void canWallMoveMethod()
-    {
+    //---------------------------------------wall movement------------------------------------------------
+    public void canWallMoveMethod() {
         canWallMove = true;
     }
 
     //check if the player is in contact with a wall
-    public bool isWalled()
-    {
-        if(Physics2D.OverlapCircle(wallCheckLeft.position, 0.2f, wall | wallFloor))
-        {
+    public bool isWalled() {
+        if(Physics2D.OverlapCircle(wallCheckLeft.position, 0.2f, wall | wallFloor)){
             slideType = "leftSlide";
             canDash = true;
             return true;
         }
-        else if(Physics2D.OverlapCircle(wallCheckRight.position, 0.2f, wall| wallFloor))
-        {
+        else if(Physics2D.OverlapCircle(wallCheckRight.position, 0.2f, wall| wallFloor)) {
             slideType = "rightSlide";
             canDash = true;
             return true;
         }
-
-        else
-        {
+        else {
             return false;
         }
     }
 
     //wall slide logic
-    public void wallSlideCheck()
-    {
-        if (isWalled() && !groundCheck())
-        {
+    public void wallSlideCheck() {
+        if (isWalled() && !groundCheck()) {
             canDoubleJump = true;
-            if (dirX > 0f && slideType.Equals("rightSlide"))
-            {
+            if (dirX > 0f && slideType.Equals("rightSlide")) {
                 wallSlide();
             }
-
-            else if (dirX < 0f && slideType.Equals("leftSlide"))
-            {
+            else if (dirX < 0f && slideType.Equals("leftSlide")) {
                 wallSlide();
             }
-
-            else
-            {
+            else {
                 canMove = true;
             }
         }
-
-        else
-        {
+        else {
             isWallSliding = false;
         }
     }
 
     //slow walled player
-    private void wallSlide()
-    {
+    private void wallSlide() {
         isWallSliding = true;
         rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlideSpeed, float.MaxValue));
         canMove = false;
     }
 
     //wall slide jumping logic
-    private void wallJump()
-    {
+    private void wallJump() {
         if((isWallSliding || isWalled()) && Input.GetKeyDown("space") && !groundCheck() && canWallJump) {
             isWallJumping = true;
             Debug.Log(wallJumpAngle + "" + wallJumpDirection);
@@ -230,39 +221,29 @@ public class SoupMove : MonoBehaviour
             //will feel smoother if you delay the time before player can double jump after leaving the wall
             Invoke("enableWallJump", 0.4f);
         }
-
-        else
-        {
+        else {
             isWallJumping = false;
         }
     }
-    bool canWallJump = true;
-
-    public void enableWallJump(){
+    
+    public void enableWallJump() {
         canWallJump = true;
     }
-
-    bool wasFalling;
-
+    
     //set the animation state of the player sprite
-    private void setAnimation()
-    {
+    private void setAnimation() {
         SoupMovementStates currentState = 0;
 
         //wall jumping animation logic
         //(only happens when player is not in level 1)
-        if (!SceneManager.GetActiveScene().name.Equals("Level 1"))
-        {
-            if (isWalled() && dirX >= 0f && !groundCheck() && slideType.Equals("rightSlide"))
-            {
+        if (!SceneManager.GetActiveScene().name.Equals("Level 1")) {
+            if (isWalled() && dirX >= 0f && !groundCheck() && slideType.Equals("rightSlide")) {
                 currentState = SoupMovementStates.slidingRight;
                 sprite.flipX = false;
                 doubleJumping = false;
                 wallJumpDirection = -1;
             }
-
-            else if (isWalled() && dirX <= 0f && !groundCheck() && slideType.Equals("leftSlide"))
-            {
+            else if (isWalled() && dirX <= 0f && !groundCheck() && slideType.Equals("leftSlide")) {
                 currentState = SoupMovementStates.slidingLeft;
                 sprite.flipX = false;
                 doubleJumping = false;
@@ -271,49 +252,39 @@ public class SoupMove : MonoBehaviour
         }
 
         //running animation logic
-        if (dirX > 0f && groundCheck())
-        {
+        if (dirX > 0f && groundCheck()) {
             sprite.flipX = false;
             currentState = SoupMovementStates.running;
         }
-
-        else if (dirX < 0f && groundCheck())
-        {
+        else if (dirX < 0f && groundCheck()) {
             sprite.flipX = true;
             currentState = SoupMovementStates.running;
         }
         
         //idle animation logic
-        if (dirX == 0 && rb.velocity.y == 0)
-        {
+        if (dirX == 0 && rb.velocity.y == 0) {
             currentState = SoupMovementStates.idle;
         }
 
         //jumping and falling animation logic
-        if (rb.velocity.y > 0.1f && !doubleJumping && !isWalled())
-        {
+        if (rb.velocity.y > 0.1f && !doubleJumping && !isWalled()) {
             currentState = SoupMovementStates.jumping;
         }
 
-        else if (rb.velocity.y < -0.1f && (!isWalled() || isWalled() && dirX == 0))
-        {
+        else if (rb.velocity.y < -0.1f && (!isWalled() || isWalled() && dirX == 0)) {
             doubleJumping = false;
             currentState = SoupMovementStates.falling;
         }
 
         //double jumping animation logic
-        if (doubleJumping && !isWalled())
-        {
+        if (doubleJumping && !isWalled()) {
             currentState = SoupMovementStates.doubleJump;
-            wasFalling = false;
-            if(dirX < -0.1f)
-            {
+            if(dirX < -0.1f) {
                 sprite.flipX = true;
-            } else
-            {
+            } 
+            else {
                 sprite.flipX = false;
-            }
-            
+            } 
         }
 
         anim.SetInteger("soupState", (int)currentState);
@@ -322,15 +293,13 @@ public class SoupMove : MonoBehaviour
     
 
     //cheking if the player is on the ground
-    private bool groundCheck()
-    {
+    private bool groundCheck() {
         if(Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableSurface | wallFloor)){
             canDoubleJump = true;
             isJumping = false;
             canDash = true;
             return true;
         } 
-       
         else {
             return false;
         }
