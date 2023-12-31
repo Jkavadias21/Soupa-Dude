@@ -39,8 +39,8 @@ public class SoupMove : MonoBehaviour
     private float jumpForce = 14f;
     private bool isJumping = false;
     private bool doubleJumping = false;
-    
-    
+
+    [SerializeField] LevelManager levelManager;
 
     private enum SoupMovementStates { idle, running, jumping, falling, slidingRight, slidingLeft, doubleJump};
     
@@ -66,9 +66,7 @@ public class SoupMove : MonoBehaviour
         //player movement
         wallJumpMove();
         walk();
-        dash();
         jump();
-        doubleJump();
         
         setAnimation();
 
@@ -77,10 +75,17 @@ public class SoupMove : MonoBehaviour
     
     //activate abilities associated with current level 
     public void activateAbilities() {
-        if(!SceneManager.GetActiveScene().name.Equals("Level 1")) {
+        if(levelManager.levelNumber >= 2) {
             wallSlideCheck();
             wallJump();
         }
+        if(levelManager.levelNumber >= 3) {
+            doubleJump();
+        }
+        if(levelManager.levelNumber >= 4) {
+            dash();
+        }
+
     }
 
     //-----------------------------------------movement--------------------------------------------------
@@ -96,13 +101,12 @@ public class SoupMove : MonoBehaviour
     
     //wall jumping player movement logic
     public void wallJumpMove(){
-        if(!SceneManager.GetActiveScene().name.Equals("Level 1")) {
-            if(groundCheck() || canWallMove) {
-                rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
-                canWallMove = false;
-                canMove = true;
-            }
+        if(groundCheck() || canWallMove) {
+            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+            canWallMove = false;
+            canMove = true;
         }
+        
     }
 
     //dash logic
@@ -189,9 +193,11 @@ public class SoupMove : MonoBehaviour
             canDoubleJump = true;
             if (dirX > 0f && slideType.Equals("rightSlide")) {
                 wallSlide();
+                isWallSliding = true;
             }
             else if (dirX < 0f && slideType.Equals("leftSlide")) {
                 wallSlide();
+                isWallSliding = true;
             }
             else {
                 canMove = true;
@@ -211,7 +217,7 @@ public class SoupMove : MonoBehaviour
 
     //wall slide jumping logic
     private void wallJump() {
-        if((isWallSliding || isWalled()) && Input.GetKeyDown("space") && !groundCheck() && canWallJump) {
+        if((isWallSliding || isWalled()) && Input.GetKeyDown("space") && !groundCheck() && canWallJump && dirX != 0) {
             isWallJumping = true;
             Debug.Log(wallJumpAngle + "" + wallJumpDirection);
             rb.AddForce(new Vector2(wallJumpForce * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
@@ -240,13 +246,13 @@ public class SoupMove : MonoBehaviour
         //wall jumping animation logic
         //(only happens when player is not in level 1)
         if (!SceneManager.GetActiveScene().name.Equals("Level 1")) {
-            if (isWalled() && dirX >= 0f && !groundCheck() && slideType.Equals("rightSlide")) {
+            if (isWalled() && dirX > 0f && !groundCheck() && slideType.Equals("rightSlide")) {
                 currentState = SoupMovementStates.slidingRight;
                 sprite.flipX = false;
                 doubleJumping = false;
                 wallJumpDirection = -1;
             }
-            else if (isWalled() && dirX <= 0f && !groundCheck() && slideType.Equals("leftSlide")) {
+            else if (isWalled() && dirX < 0f && !groundCheck() && slideType.Equals("leftSlide")) {
                 currentState = SoupMovementStates.slidingLeft;
                 sprite.flipX = false;
                 doubleJumping = false;
@@ -273,8 +279,7 @@ public class SoupMove : MonoBehaviour
         if (rb.velocity.y > 0.1f && !doubleJumping && !isWalled()) {
             currentState = SoupMovementStates.jumping;
         }
-
-        else if (rb.velocity.y < -0.1f && (!isWalled() || isWalled() && dirX == 0)) {
+else if (rb.velocity.y < -0.1f && (!isWalled() || isWalled() && dirX == 0)) {
             doubleJumping = false;
             currentState = SoupMovementStates.falling;
         }
