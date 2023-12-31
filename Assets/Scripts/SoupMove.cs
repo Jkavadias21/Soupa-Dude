@@ -39,6 +39,10 @@ public class SoupMove : MonoBehaviour
     private float jumpForce = 14f;
     private bool isJumping = false;
     private bool doubleJumping = false;
+    bool isDashing = false;
+    bool canDash = true;
+    Vector2 dashForceRight = new Vector2(15, 0);
+    Vector2 dashForceLeft = new Vector2(-15, 0);
 
     [SerializeField] LevelManager levelManager;
 
@@ -52,17 +56,9 @@ public class SoupMove : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
         wallJumpAngle.Normalize();
     }
-
-    //SoupMovementStates currentState;
-    Vector2 dashForceRight = new Vector2(15, 0);
-    Vector2 dashForceLeft = new Vector2(-15, 0);
-    bool isDashing = false;
-    bool canDash = true;
-
+    
     void Update()
     {
-        
-
         //player movement
         wallJumpMove();
         walk();

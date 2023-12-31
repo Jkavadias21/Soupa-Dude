@@ -22,14 +22,11 @@ public class SoupDie : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("dead");
         rb.bodyType = RigidbodyType2D.Static;
         anim.SetBool("soupDead", true);
-        //Invoke("RestartLevel", 0.2f);
     }
 
-    private void RestartLevel()
-    {
+    private void RestartLevel() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
