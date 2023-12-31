@@ -28,6 +28,7 @@ public class SoupMove : MonoBehaviour
     [SerializeField] private float wallJumpDirection;
     [SerializeField] private Vector2 wallJumpAngle;
     private bool isWallJumping = false;
+    bool canWallJump = true;
 
     //movement variables
     private bool canDoubleJump = false;
@@ -37,9 +38,8 @@ public class SoupMove : MonoBehaviour
     private float moveSpeed = 7f;
     private float jumpForce = 14f;
     private bool isJumping = false;
-
     private bool doubleJumping = false;
-    bool canWallJump = true;
+    
     
 
     private enum SoupMovementStates { idle, running, jumping, falling, slidingRight, slidingLeft, doubleJump};
@@ -61,7 +61,7 @@ public class SoupMove : MonoBehaviour
 
     void Update()
     {
-        dirX = Input.GetAxisRaw("Horizontal");
+        
 
         //player movement
         wallJumpMove();
@@ -74,10 +74,7 @@ public class SoupMove : MonoBehaviour
 
         activateAbilities();
     }
-
-
-    //-----------------------------------------movement--------------------------------------------------
-
+    
     //activate abilities associated with current level 
     public void activateAbilities() {
         if(!SceneManager.GetActiveScene().name.Equals("Level 1")) {
@@ -86,8 +83,12 @@ public class SoupMove : MonoBehaviour
         }
     }
 
+    //-----------------------------------------movement--------------------------------------------------
+    
     //non wall jumping player movement logic
     public void walk() {
+        dirX = Input.GetAxisRaw("Horizontal");
+
         if(canMove && !isDashing) {
             rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
         }
@@ -144,7 +145,7 @@ public class SoupMove : MonoBehaviour
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
             doubleJumping = true;
             canDoubleJump = false;
-            isJumping = true;            
+            isJumping = true;
         }
     }
 
@@ -219,7 +220,9 @@ public class SoupMove : MonoBehaviour
             canWallJump = false;
             //wall jump delay, lower timer means easier celeste jumping
             //will feel smoother if you delay the time before player can double jump after leaving the wall
-            Invoke("enableWallJump", 0.4f);
+            //make sure to specify that as soup approahces the wall after dashing if they then jump when hitting the wall
+            //they will get a boost
+            Invoke("enableWallJump", 0.525f);
         }
         else {
             isWallJumping = false;
@@ -290,8 +293,6 @@ public class SoupMove : MonoBehaviour
         anim.SetInteger("soupState", (int)currentState);
     }
 
-    
-
     //cheking if the player is on the ground
     private bool groundCheck() {
         if(Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableSurface | wallFloor)){
@@ -303,8 +304,6 @@ public class SoupMove : MonoBehaviour
         else {
             return false;
         }
-        
-            
     }
 }
 
