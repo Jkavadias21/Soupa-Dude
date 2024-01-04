@@ -71,14 +71,14 @@ public class SoupMove : MonoBehaviour
     
     //activate abilities associated with current level 
     public void activateAbilities() {
-        if(levelManager.levelNumber >= 2) {
+        if(levelManager.levelNumber >= 0) {
             wallSlideCheck();
             wallJump();
         }
-        if(levelManager.levelNumber >= 3) {
+        if(levelManager.levelNumber >= 0) {
             doubleJump();
         }
-        if(levelManager.levelNumber >= 4) {
+        if(levelManager.levelNumber >= 0) {
             dash();
         }
 
@@ -146,6 +146,10 @@ public class SoupMove : MonoBehaviour
             doubleJumping = true;
             canDoubleJump = false;
             isJumping = true;
+            //if wall jump is on timer then this removes celeste jump from ground
+            //if wall jump is not on timer then this removes celeste jump
+            canWallJump = false;
+            Invoke("enableWallJump", 0.25f);
         }
     }
 
@@ -219,12 +223,15 @@ public class SoupMove : MonoBehaviour
             rb.AddForce(new Vector2(wallJumpForce * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
             canMove = false;
             Invoke(nameof(canWallMoveMethod), 0.3f);
-            canWallJump = false;
+
+
             //wall jump delay, lower timer means easier celeste jumping
             //will feel smoother if you delay the time before player can double jump after leaving the wall
             //make sure to specify that as soup approahces the wall after dashing if they then jump when hitting the wall
             //they will get a boost
-            Invoke("enableWallJump", 0.525f);
+            //enabling this makes celeste jump possible with double jump delay enabled
+            //canWallJump = false;
+            //Invoke("enableWallJump", 0.525f);
         }
         else {
             isWallJumping = false;
