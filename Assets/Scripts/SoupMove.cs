@@ -303,10 +303,11 @@ else if (rb.velocity.y < -0.1f && (!isWalled() || isWalled() && dirX == 0)) {
 
     //cheking if the player is on the ground
     private bool groundCheck() {
-        if(Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableSurface | wallFloor)){
+        if(Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.2f, jumpableSurface | wallFloor)){
             canDoubleJump = true;
             isJumping = false;
             canDash = true;
+            Debug.Log("on flood");
             return true;
         } 
         else {
