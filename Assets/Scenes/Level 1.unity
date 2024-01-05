@@ -30382,7 +30382,7 @@ GameObject:
   - component: {fileID: 1291908288}
   - component: {fileID: 1291908287}
   - component: {fileID: 1291908291}
-  - component: {fileID: 1291908290}
+  - component: {fileID: 1291908292}
   m_Layer: 0
   m_Name: Hook Straw Collectable
   m_TagString: Untagged
@@ -30477,18 +30477,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1291908290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1291908286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19b56c654e6a4fc88b3bbdc2496f517, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &1291908291
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -30515,6 +30503,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.1333334, y: 2.1333334}
   m_EdgeRadius: 0
+--- !u!114 &1291908292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291908286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5fa0e00eb588a0449933dc0cc889a35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelNumber: 0
 --- !u!1 &1294731325
 GameObject:
   m_ObjectHideFlags: 0
@@ -37526,6 +37527,10 @@ PrefabInstance:
       propertyPath: m_EdgeRadius
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 4432915098047372878, guid: 4a8939eafdbb74444988ed9cef5e75ae, type: 3}
+      propertyPath: levelManager
+      value: 
+      objectReference: {fileID: 1294731326}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a8939eafdbb74444988ed9cef5e75ae, type: 3}
 --- !u!1001 &4575536797937310031

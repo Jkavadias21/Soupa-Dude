@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
 
     //transition between levels upon item collection
     private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.gameObject.name == "Soup Player") {
+        if(collision.gameObject.name == "Soup Player" || Input.GetKeyDown("t")) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }

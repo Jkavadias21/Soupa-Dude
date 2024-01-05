@@ -24,7 +24,7 @@ public class SoupMove : MonoBehaviour
     private string slideType;
 
     //wall jumping variables and classes
-    [SerializeField] private float wallJumpForce = 18f;
+    [SerializeField] private float wallJumpForce = 50f;
     [SerializeField] private float wallJumpDirection;
     [SerializeField] private Vector2 wallJumpAngle;
     private bool isWallJumping = false;
@@ -149,7 +149,7 @@ public class SoupMove : MonoBehaviour
             //if wall jump is on timer then this removes celeste jump from ground
             //if wall jump is not on timer then this removes celeste jump
             canWallJump = false;
-            Invoke("enableWallJump", 0.25f);
+            Invoke("enableWallJump", 0.35f);
         }
     }
 
@@ -220,7 +220,7 @@ public class SoupMove : MonoBehaviour
         if((isWallSliding || isWalled()) && Input.GetKeyDown("space") && !groundCheck() && canWallJump && dirX != 0) {
             isWallJumping = true;
             Debug.Log(wallJumpAngle + "" + wallJumpDirection);
-            rb.AddForce(new Vector2(wallJumpForce * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(wallJumpForce  * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
             canMove = false;
             Invoke(nameof(canWallMoveMethod), 0.3f);
 
@@ -231,7 +231,7 @@ public class SoupMove : MonoBehaviour
             //they will get a boost
             //enabling this makes celeste jump possible with double jump delay enabled
             //canWallJump = false;
-            //Invoke("enableWallJump", 0.525f);
+            //Invoke("enableWallJump", 0.6f);
         }
         else {
             isWallJumping = false;
