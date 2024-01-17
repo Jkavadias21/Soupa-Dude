@@ -24,7 +24,7 @@ public class SoupMove : MonoBehaviour
     private string slideType;
 
     //wall jumping variables and classes
-    [SerializeField] private float wallJumpForce = 50f;
+    [SerializeField] private float wallJumpForce = 100f;
     [SerializeField] private float wallJumpDirection;
     [SerializeField] private Vector2 wallJumpAngle;
     private bool isWallJumping = false;
@@ -71,14 +71,14 @@ public class SoupMove : MonoBehaviour
     
     //activate abilities associated with current level 
     public void activateAbilities() {
-        if(levelManager.levelNumber >= 0) {
+        if(levelManager.levelNumber >= 2) {
             wallSlideCheck();
             wallJump();
         }
-        if(levelManager.levelNumber >= 0) {
+        if(levelManager.levelNumber >= 3) {
             doubleJump();
         }
-        if(levelManager.levelNumber >= 0) {
+        if(levelManager.levelNumber >= 4) {
             dash();
         }
 
@@ -223,8 +223,7 @@ public class SoupMove : MonoBehaviour
             rb.AddForce(new Vector2(wallJumpForce  * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
             canMove = false;
             Invoke(nameof(canWallMoveMethod), 0.3f);
-
-
+            
             //wall jump delay, lower timer means easier celeste jumping
             //will feel smoother if you delay the time before player can double jump after leaving the wall
             //make sure to specify that as soup approahces the wall after dashing if they then jump when hitting the wall

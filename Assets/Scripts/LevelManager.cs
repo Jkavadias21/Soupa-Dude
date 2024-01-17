@@ -25,4 +25,18 @@ public class LevelManager : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
+    
+    public void loadTutorial() {
+        SceneManager.LoadScene("Tutorial Select");
+    }
+
+    public void loadLevel1() {
+        SceneManager.LoadScene("Level 1");
+    }
+    public void loadLevel2() {
+        SceneManager.LoadScene("Level 2");
+    }
+    public void loadLevel3() {
+        SceneManager.LoadScene("Level 3");
+    }
 }
