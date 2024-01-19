@@ -42,9 +42,16 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("Level 3");
     }
     public void loadMenu() {
-        menu.SetActive(false);
-        Time.timeScale = 1f;
         SceneManager.LoadScene("Main Menu");
+        Time.timeScale = 1f;
+    }
+
+    public void closeGame() {
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                    Application.Quit();
+        #endif
     }
 
 }

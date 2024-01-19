@@ -486,7 +486,6 @@ GameObject:
   - component: {fileID: 270794285}
   - component: {fileID: 270794284}
   - component: {fileID: 270794283}
-  - component: {fileID: 270794282}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -494,18 +493,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &270794282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270794281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45ec83d1b29d08e4ea36fa697b461d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &270794283
 MonoBehaviour:
   m_ObjectHideFlags: 0
