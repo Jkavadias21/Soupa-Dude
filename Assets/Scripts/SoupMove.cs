@@ -67,6 +67,7 @@ public class SoupMove : MonoBehaviour
         setAnimation();
 
         activateAbilities();
+        Debug.Log(dirX);
     }
     
     //activate abilities associated with current level 
@@ -75,7 +76,7 @@ public class SoupMove : MonoBehaviour
             wallSlideCheck();
             wallJump();
         }
-        if(levelManager.levelNumber >= 3) {
+        if(levelManager.levelNumber >= 1) {
             doubleJump();
         }
         if(levelManager.levelNumber >= 4) {
@@ -135,12 +136,13 @@ public class SoupMove : MonoBehaviour
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
             canDoubleJump = true;
             isJumping = true;
+            canWallJump = false;
+            Invoke("enableWallJump", 0.3f);
         }
     }
 
     //double jump logic
     public void doubleJump(){
-        
         if(Input.GetKeyDown("f") && canDoubleJump && !isWallSliding && !groundCheck()) {
             rb.velocity = new Vector2(dirX * moveSpeed, jumpForce);
             doubleJumping = true;
@@ -172,12 +174,12 @@ public class SoupMove : MonoBehaviour
 
     //check if the player is in contact with a wall
     public bool isWalled() {
-        if(Physics2D.OverlapCircle(wallCheckLeft.position, 0.2f, wall | wallFloor)){
+        if(Physics2D.OverlapCircle(wallCheckLeft.position, 0.05f, wall | wallFloor)){
             slideType = "leftSlide";
             canDash = true;
             return true;
         }
-        else if(Physics2D.OverlapCircle(wallCheckRight.position, 0.2f, wall| wallFloor)) {
+        else if(Physics2D.OverlapCircle(wallCheckRight.position, 0.05f, wall| wallFloor)) {
             slideType = "rightSlide";
             canDash = true;
             return true;
@@ -208,6 +210,7 @@ public class SoupMove : MonoBehaviour
         }
     }
 
+    Vector2 temp;
     //slow walled player
     private void wallSlide() {
         isWallSliding = true;
@@ -223,14 +226,12 @@ public class SoupMove : MonoBehaviour
             rb.AddForce(new Vector2(wallJumpForce  * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
             canMove = false;
             Invoke(nameof(canWallMoveMethod), 0.3f);
-            
+
             //wall jump delay, lower timer means easier celeste jumping
             //will feel smoother if you delay the time before player can double jump after leaving the wall
             //make sure to specify that as soup approahces the wall after dashing if they then jump when hitting the wall
             //they will get a boost
             //enabling this makes celeste jump possible with double jump delay enabled
-            //canWallJump = false;
-            //Invoke("enableWallJump", 0.6f);
         }
         else {
             isWallJumping = false;
