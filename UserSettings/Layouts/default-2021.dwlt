@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1856
     height: 981
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Game
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 21
+  controlID: 66
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -189,8 +189,8 @@ MonoBehaviour:
     y: 0
     width: 281
     height: 607
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -270,8 +270,8 @@ MonoBehaviour:
     y: 0
     width: 402
     height: 931
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -541,7 +541,7 @@ MonoBehaviour:
       containerId: overlay-toolbar__top
       floating: 0
       collapsed: 0
-      displayed: 1
+      displayed: 0
       snapOffset: {x: 0, y: 25}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
@@ -558,9 +558,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 62.35022, y: -24.863829, z: -16.191925}
+    m_Target: {x: 564.1856, y: 253.59308, z: -7.9460716}
     speed: 2
-    m_Value: {x: 62.35022, y: -24.863829, z: -16.191925}
+    m_Value: {x: 564.1856, y: 253.59308, z: -7.9460716}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -611,9 +611,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 11.225504
+    m_Target: 263.4895
     speed: 2
-    m_Value: 11.225504
+    m_Value: 263.4895
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -631,7 +631,7 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+  m_LastSceneViewRotation: {x: -0.071106955, y: 0.7703142, z: -0.08726951, w: -0.62765}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -669,9 +669,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 0af4ffff
-      m_LastClickedID: -3062
-      m_ExpandedIDs: 0cf4ffffcaf6ffff72f7ffff2afbffffca6d0000c0890000108a0000
+      m_SelectedIDs: 80650000
+      m_LastClickedID: 0
+      m_ExpandedIDs: 2a40ffff2846ffff2e49ffffaa4fffff2e50fffffc8fffff4c90fffff694ffffbe97ffff0a99fffffc9affff5a9dfffff6a0ffffc4a1ffff14a2fffff8ebffff56ecffff94ecffff30edffffd8edffff76eeffff54f0ffff2cf1ffffb0f8fffff8f8ffff34f9ffff2afbffffa4840000c2870000ce8700004c9000005890000086920000a6930000b0930000bc930000709500000e9600006696000052ba00003abb000096bd0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -841,9 +841,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: ae630000
-    m_LastClickedID: 25518
-    m_ExpandedIDs: 000000007c63000000ca9a3bffffff7f
+    m_SelectedIDs: 36650000
+    m_LastClickedID: 25910
+    m_ExpandedIDs: 000000001c65000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -871,7 +871,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000007c630000
+    m_ExpandedIDs: 000000001c650000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -902,18 +902,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Tutorial Select
+      m_OriginalName: Tutorial Select
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 36804
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 10}
     m_CreateAssetUtility:
