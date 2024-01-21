@@ -35,14 +35,14 @@ public class SoupMove : MonoBehaviour
     private bool canWallMove = false;
     private bool canMove = true;
     private float dirX;
-    private float moveSpeed = 7f;
+    private float moveSpeed = 7f; 
     private float jumpForce = 14f;
     private bool isJumping = false;
     private bool doubleJumping = false;
     bool isDashing = false;
     bool canDash = true;
-    Vector2 dashForceRight = new Vector2(15, 0);
-    Vector2 dashForceLeft = new Vector2(-15, 0);
+    Vector2 dashForceRight = new Vector2(20, 0);
+    Vector2 dashForceLeft = new Vector2(-20, 0);
 
     [SerializeField] LevelManager levelManager;
 
@@ -113,14 +113,18 @@ public class SoupMove : MonoBehaviour
             rb.velocity = new Vector2(0, 0);
             
             if (dirX < -0.1f){
+                dashingLeft = true;
                 rb.AddForce(dashForceLeft, ForceMode2D.Impulse);
             }
 
             else if(dirX > 0.1f){
+                dashingRight = true;
                 rb.AddForce(dashForceRight, ForceMode2D.Impulse);
             }
 
             else{
+                dashingRight = true;
+                sprite.flipX = true;
                 rb.AddForce(dashForceRight, ForceMode2D.Impulse);
             }
 
@@ -282,10 +286,10 @@ public class SoupMove : MonoBehaviour
         }
 
         //jumping and falling animation logic
-        if (rb.velocity.y > 0.1f && !doubleJumping && !isWalled()) {
+        if (rb.velocity.y > 0.1f && !doubleJumping && !isWalled() && !isDashing) {
             currentState = SoupMovementStates.jumping;
         }
-        else if (rb.velocity.y < -0.1f && (!isWalled() || isWalled() && dirX == 0)) {
+        else if (rb.velocity.y < -0.1f && (!isWalled() || isWalled() && dirX == 0) && !isDashing) {
             doubleJumping = false;
             currentState = SoupMovementStates.falling;
         }
@@ -301,12 +305,22 @@ public class SoupMove : MonoBehaviour
             } 
         }
 
-        if(isDashing) {
+        if(isDashing && dirX < 0f && dashingLeft) {
+            sprite.flipX = true;
             currentState = SoupMovementStates.dashing;
         }
+        else if(isDashing && dashingRight) {
+            currentState = SoupMovementStates.dashing;
+            sprite.flipX = false;
+        }
+        
+
         Debug.Log("state is" + currentState);
         anim.SetInteger("soupState", (int)currentState);
     }
+
+    bool dashingLeft;
+    bool dashingRight;
 
     //cheking if the player is on the ground
     private bool groundCheck() {
@@ -315,6 +329,12 @@ public class SoupMove : MonoBehaviour
             isJumping = false;
             canDash = true;
             Debug.Log("on flood");
+            if(dashingRight) {
+                dashingRight = false;
+            }
+            if(dashingLeft) {
+                dashingLeft = false;
+            }
             return true;
         } 
         else {
