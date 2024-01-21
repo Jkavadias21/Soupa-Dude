@@ -46,7 +46,7 @@ public class SoupMove : MonoBehaviour
 
     [SerializeField] LevelManager levelManager;
 
-    private enum SoupMovementStates { idle, running, jumping, falling, slidingRight, slidingLeft, doubleJump};
+    private enum SoupMovementStates { idle, running, jumping, falling, slidingRight, slidingLeft, doubleJump, dashing};
     
     void Start() {
         //getting components
@@ -67,7 +67,8 @@ public class SoupMove : MonoBehaviour
         setAnimation();
 
         activateAbilities();
-        Debug.Log(dirX);
+        
+
     }
     
     //activate abilities associated with current level 
@@ -79,7 +80,7 @@ public class SoupMove : MonoBehaviour
         if(levelManager.levelNumber >= 1) {
             doubleJump();
         }
-        if(levelManager.levelNumber >= 4) {
+        if(levelManager.levelNumber >= 1) {
             dash();
         }
 
@@ -177,11 +178,13 @@ public class SoupMove : MonoBehaviour
         if(Physics2D.OverlapCircle(wallCheckLeft.position, 0.05f, wall | wallFloor)){
             slideType = "leftSlide";
             canDash = true;
+            isDashing = false;
             return true;
         }
         else if(Physics2D.OverlapCircle(wallCheckRight.position, 0.05f, wall| wallFloor)) {
             slideType = "rightSlide";
             canDash = true;
+            isDashing = false;
             return true;
         }
         else {
@@ -282,7 +285,7 @@ public class SoupMove : MonoBehaviour
         if (rb.velocity.y > 0.1f && !doubleJumping && !isWalled()) {
             currentState = SoupMovementStates.jumping;
         }
-else if (rb.velocity.y < -0.1f && (!isWalled() || isWalled() && dirX == 0)) {
+        else if (rb.velocity.y < -0.1f && (!isWalled() || isWalled() && dirX == 0)) {
             doubleJumping = false;
             currentState = SoupMovementStates.falling;
         }
@@ -298,6 +301,10 @@ else if (rb.velocity.y < -0.1f && (!isWalled() || isWalled() && dirX == 0)) {
             } 
         }
 
+        if(isDashing) {
+            currentState = SoupMovementStates.dashing;
+        }
+        Debug.Log("state is" + currentState);
         anim.SetInteger("soupState", (int)currentState);
     }
 
