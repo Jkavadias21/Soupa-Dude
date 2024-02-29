@@ -73,14 +73,14 @@ public class SoupMove : MonoBehaviour
     
     //activate abilities associated with current level 
     public void activateAbilities() {
-        if(levelManager.levelNumber >= 2) {
+        if(levelManager.levelNumber == 2) {
             wallSlideCheck();
             wallJump();
         }
-        if(levelManager.levelNumber >= 1) {
+        if(levelManager.levelNumber == 3) {
             doubleJump();
         }
-        if(levelManager.levelNumber >= 1) {
+        if(levelManager.levelNumber == 4) {
             dash();
         }
 
