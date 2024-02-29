@@ -25,6 +25,11 @@ public class SetCupType : MonoBehaviour
             SceneManager.GetActiveScene().name.Equals("Level 3")) {
             Set(1);
         }
+        if(
+            SceneManager.GetActiveScene().name.Equals("Level 4")) {
+            Debug.Log("here");
+            Set(2);
+        }
 
     }
 }

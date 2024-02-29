@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Red Straw
+  m_Controller: {fileID: 9100000, guid: 6e594cc69476a8b438412b4468ccbf95, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 2ad7df5abe672a346bf3dc19f023ec7b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2ad7df5abe672a346bf3dc19f023ec7b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 4cf3f883bc31a7847a3419dbd9f4baab, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4cf3f883bc31a7847a3419dbd9f4baab, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: aa96a79e982ccc44aa0bcc7aef40d9a5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: aa96a79e982ccc44aa0bcc7aef40d9a5, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9d3f68b9ff10ddb4fad56a78a0c78df2, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9d3f68b9ff10ddb4fad56a78a0c78df2, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: be1e418ba59cb44febaaf609bd0f29e3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2ad7df5abe672a346bf3dc19f023ec7b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: fc74181ac07c240a2a3fa006f36f0e60, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4cf3f883bc31a7847a3419dbd9f4baab, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 3f3bb50921d7441beacca93666261650, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: aa96a79e982ccc44aa0bcc7aef40d9a5, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7087c9a910bdc42e1955403a8a03e1c2, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9d3f68b9ff10ddb4fad56a78a0c78df2, type: 2}

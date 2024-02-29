@@ -17,6 +17,9 @@ public class LevelManager : MonoBehaviour
         if(SceneManager.GetActiveScene().name.Equals("Level 3")) {
             levelNumber = 3;
         }
+        if(SceneManager.GetActiveScene().name.Equals("Level 4")) {
+            levelNumber = 4;
+        }
     }
 
     //transition between levels upon item collection
