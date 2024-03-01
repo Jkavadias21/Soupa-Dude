@@ -6,11 +6,23 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] GameObject menu;
+    [SerializeField] AbilityManager abilityManagerScript;
+    [SerializeField] GameObject[] TutorialButtons;
     private bool isPaused = false;
 
     void Update() {
         if(Input.GetKeyDown(KeyCode.Escape)) {
             TogglePause();
+        }
+
+        if(PlayerPrefs.GetInt("hasBoots", 0) == 1) {
+            TutorialButtons[0].SetActive(true);
+        }
+        if(PlayerPrefs.GetInt("hasHookStraw", 0) == 1) {
+            TutorialButtons[1].SetActive(true);
+        }
+        if(PlayerPrefs.GetInt("hasRedStraw", 0) == 1) {
+            TutorialButtons[2].SetActive(true);
         }
     }
 
@@ -32,14 +44,14 @@ public class MenuManager : MonoBehaviour
     public void loadTutorial() {
         SceneManager.LoadScene("Tutorial Select");
     }
-    public void loadLevel1() {
-        SceneManager.LoadScene("Level 1");
+    public void loadHookStrawTutorial() {
+        SceneManager.LoadScene("Hook Straw Tutorial");
     }
-    public void loadLevel2() {
-        SceneManager.LoadScene("Level 2");
+    public void loadBootsTutorial() {
+        SceneManager.LoadScene("Boots Tutorial");
     }
-    public void loadLevel3() {
-        SceneManager.LoadScene("Level 3");
+    public void loadRedStrawTutorial() {
+        SceneManager.LoadScene("Red Straw Tutorial");
     }
     public void loadMenu() {
         SceneManager.LoadScene("Main Menu");
@@ -47,6 +59,7 @@ public class MenuManager : MonoBehaviour
     }
 
     public void closeGame() {
+        PlayerPrefs.DeleteAll();
         #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
         #else
