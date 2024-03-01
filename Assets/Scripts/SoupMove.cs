@@ -44,7 +44,9 @@ public class SoupMove : MonoBehaviour
     Vector2 dashForceRight = new Vector2(20, 0);
     Vector2 dashForceLeft = new Vector2(-20, 0);
 
-    [SerializeField] LevelManager levelManager;
+    public bool inTutorial;
+
+    [SerializeField] AbilityManager abilityManagerScript;
 
     private enum SoupMovementStates { idle, running, jumping, falling, slidingRight, slidingLeft, doubleJump, dashing};
     
@@ -60,9 +62,11 @@ public class SoupMove : MonoBehaviour
     void Update()
     {
         //player movement
-        wallJumpMove();
-        walk();
-        jump();
+        if(!inTutorial) {
+            wallJumpMove();
+            walk();
+            jump();
+        }
         
         setAnimation();
 
@@ -73,14 +77,14 @@ public class SoupMove : MonoBehaviour
     
     //activate abilities associated with current level 
     public void activateAbilities() {
-        if(levelManager.levelNumber == 2) {
+        if(abilityManagerScript.hasHookStraw && !inTutorial) {
             wallSlideCheck();
             wallJump();
         }
-        if(levelManager.levelNumber == 3) {
+        if(abilityManagerScript.hasBoots && !inTutorial) {
             doubleJump();
         }
-        if(levelManager.levelNumber == 4) {
+        if(abilityManagerScript.hasRedStraw && !inTutorial) {
             dash();
         }
 

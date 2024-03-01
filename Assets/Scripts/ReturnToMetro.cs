@@ -19,14 +19,20 @@ public class ReturnToMetro : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision) {
         if(gameObject.name == "Hook Straw") {
-            soup.GetComponent<SoupMove>().enabled = true;
+            soup.GetComponent<SoupMove>().inTutorial = false;
             SceneManager.UnloadSceneAsync("Hook Straw Tutorial");
         }
 
         if(gameObject.name == "Boots") {
-            soup.GetComponent<SoupMove>().enabled = true;
+            soup.GetComponent<SoupMove>().inTutorial = false;
             SceneManager.UnloadSceneAsync("Boots Tutorial");
         }
+        
+        if(gameObject.name == "Red Straw") {
+            soup.GetComponent<SoupMove>().inTutorial = false;
+            SceneManager.UnloadSceneAsync("Red Straw Tutorial");
+        }
+
 
     }
 }

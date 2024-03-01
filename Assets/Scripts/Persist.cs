@@ -7,7 +7,6 @@ public class Persist : MonoBehaviour
 
     private static GameObject instance;
     private void Awake() {
-
         DontDestroyOnLoad(this.gameObject);
     }
 }

@@ -20,7 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Boots Tutorial.unity
     guid: 1b15369552e4643eb86463ee317dca6b
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Metroid.unity
+    guid: 3bd643068c5bfa049b3739a7886b5107
+  - enabled: 1
+    path: Assets/Scenes/Red Straw Tutorial.unity
+    guid: ab8fe9ed1a4d85b498d11ed545a1cfb4
   m_configObjects: {}

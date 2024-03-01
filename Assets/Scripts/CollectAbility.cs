@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class CollectAbility : MonoBehaviour
 {
     [SerializeField] Rigidbody2D soupRb;
+    [SerializeField] AbilityManager abilityManagerScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,14 +24,25 @@ public class CollectAbility : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.name == "Soup Player" && gameObject.name == "Boots") {
             soupRb.velocity = new Vector2(0, 0);
-            soup.GetComponent<SoupMove>().enabled = false;
+            soup.GetComponent<SoupMove>().inTutorial = true;
+            abilityManagerScript.hasBoots = true;
             Destroy(gameObject);
             SceneManager.LoadScene("Boots Tutorial", LoadSceneMode.Additive);
         }
         if(collision.gameObject.name == "Soup Player" && gameObject.name == "Hook Straw") {
-            soup.GetComponent<SoupMove>().enabled = false;
+            soupRb.velocity = new Vector2(0, 0);
+            soup.GetComponent<SoupMove>().inTutorial = true;
+            abilityManagerScript.hasHookStraw = true;
             Destroy(gameObject);
             SceneManager.LoadScene("Hook Straw Tutorial", LoadSceneMode.Additive);
         }
+        if(collision.gameObject.name == "Soup Player" && gameObject.name == "Red Straw") {
+            soupRb.velocity = new Vector2(0, 0);
+            soup.GetComponent<SoupMove>().inTutorial = true;
+            abilityManagerScript.hasRedStraw = true;
+            Destroy(gameObject);
+            SceneManager.LoadScene("Red Straw Tutorial", LoadSceneMode.Additive);
+        }
+
     }
 }

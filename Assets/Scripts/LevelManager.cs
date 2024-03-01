@@ -8,16 +8,16 @@ public class LevelManager : MonoBehaviour
     public int levelNumber;
     void Start()
     {
-        if(SceneManager.GetActiveScene().name.Equals("Level 1")) {
+        if(SceneManager.GetActiveScene().name.Equals("Hook Straw Tutorial")) {
             levelNumber = 1;
         }
-        if(SceneManager.GetActiveScene().name.Equals("Level 2")) {
+        if(SceneManager.GetActiveScene().name.Equals("Hook Straw Tutorial")) {
             levelNumber = 2;
         }
-        if(SceneManager.GetActiveScene().name.Equals("Level 3")) {
+        if(SceneManager.GetActiveScene().name.Equals("Boots Tutorial")) {
             levelNumber = 3;
         }
-        if(SceneManager.GetActiveScene().name.Equals("Level 4")) {
+        if(SceneManager.GetActiveScene().name.Equals("Red Straw Tutorial")) {
             levelNumber = 4;
         }
     }
