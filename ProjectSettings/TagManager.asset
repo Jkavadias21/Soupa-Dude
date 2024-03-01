@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Trap
+  - collectable
+  - endItem
+  - original soup
   layers:
   - Default
   - TransparentFX

@@ -23,13 +23,18 @@ public class LevelManager : MonoBehaviour
     }
 
     //transition between levels upon item collection
-    private void OnTriggerEnter2D(Collider2D collision) {
+    /*private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.name == "Soup Player" || Input.GetKeyDown("t")) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-    }
+    }*/
+    
+
+    
 
     //use collect items scripts to collect and keep track of items
-    
-    
+
+
+
+
 }
