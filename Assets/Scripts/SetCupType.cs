@@ -17,19 +17,21 @@ public class SetCupType : MonoBehaviour
 
     public void Update()
     {
-        //Debug.Log("level 2");
+        abilityManagerScript = GameObject.FindWithTag("original soup").GetComponent<SoupMove>().abilityManagerScript;
 
-        if(abilityManagerScript.hasHookStraw) {
+        Debug.Log(abilityManagerScript);
+
+        if(SceneManager.GetActiveScene().name == "Hook Straw Tutorial" || abilityManagerScript.hasHookStraw) {
             Set(0);
         }
-        if(abilityManagerScript.hasBoots) {
+        if(SceneManager.GetActiveScene().name == "Boots Tutorial" || abilityManagerScript.hasBoots) {
             Set(1);
         }
-        if(abilityManagerScript.hasRedStraw) {
+        if(SceneManager.GetActiveScene().name == "Red Straw Tutorial" || abilityManagerScript.hasRedStraw) {
             Set(2);
         }
-        if(abilityManagerScript.hasBelt) {
-            Set(2);
+        if(SceneManager.GetActiveScene().name == "Belt Tutorial" || abilityManagerScript.hasBelt) {
+            Set(3);
         }
 
     }

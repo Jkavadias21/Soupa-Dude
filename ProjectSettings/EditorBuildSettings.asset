@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Red Straw Tutorial.unity
     guid: ab8fe9ed1a4d85b498d11ed545a1cfb4
+  - enabled: 1
+    path: Assets/Scenes/Belt Tutorial.unity
+    guid: bd8acb236e5940c46b29c44402993e32
   m_configObjects: {}

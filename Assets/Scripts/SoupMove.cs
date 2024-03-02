@@ -46,7 +46,7 @@ public class SoupMove : MonoBehaviour
 
     public bool inTutorial;
 
-    [SerializeField] AbilityManager abilityManagerScript;
+    public AbilityManager abilityManagerScript;
 
     private enum SoupMovementStates { idle, running, jumping, falling, slidingRight, slidingLeft, doubleJump, dashing};
     
@@ -82,6 +82,7 @@ public class SoupMove : MonoBehaviour
             wallJump();
         }
         if(abilityManagerScript.hasBoots && !inTutorial) {
+            Debug.Log("heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeere");
             doubleJump();
         }
         if(abilityManagerScript.hasRedStraw && !inTutorial) {

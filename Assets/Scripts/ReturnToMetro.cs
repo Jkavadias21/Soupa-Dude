@@ -32,6 +32,11 @@ public class ReturnToMetro : MonoBehaviour
             soup.GetComponent<SoupMove>().inTutorial = false;
             SceneManager.UnloadSceneAsync("Red Straw Tutorial");
         }
+        
+        if(gameObject.name == "Belt") {
+            soup.GetComponent<SoupMove>().inTutorial = false;
+            SceneManager.UnloadSceneAsync("Belt Tutorial");
+        }
 
 
     }
