@@ -15,7 +15,7 @@ public class MenuManager : MonoBehaviour
             TogglePause();
         }
 
-        if(PlayerPrefs.GetInt("hasBoots", 0) == 1) {
+        /*if(PlayerPrefs.GetInt("hasBoots", 0) == 1) {
             TutorialButtons[0].SetActive(true);
         }
         if(PlayerPrefs.GetInt("hasHookStraw", 0) == 1) {
@@ -23,7 +23,7 @@ public class MenuManager : MonoBehaviour
         }
         if(PlayerPrefs.GetInt("hasRedStraw", 0) == 1) {
             TutorialButtons[2].SetActive(true);
-        }
+        }*/
     }
 
     public void TogglePause() {

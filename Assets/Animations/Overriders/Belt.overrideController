@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Belt
+  m_Controller: {fileID: 9100000, guid: 6e594cc69476a8b438412b4468ccbf95, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 3f3bb50921d7441beacca93666261650, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 14152f2447ebd7a4cbe22c1ddfded3f1, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7087c9a910bdc42e1955403a8a03e1c2, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: fdf59c0fb70e8f4469bf839647340a12, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: fc74181ac07c240a2a3fa006f36f0e60, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: b6a1d3f7cb7cf1e4a8a450abd0e27e75, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: be1e418ba59cb44febaaf609bd0f29e3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: cd694b65002a3654ab3c3b3925dc80ff, type: 2}

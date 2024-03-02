@@ -7,6 +7,7 @@ public class SetCupType : MonoBehaviour
 {
     [SerializeField] private AnimatorOverrideController[] overrideControllers;
     [SerializeField] private AnimatorOverrider overrider;
+    [SerializeField] AbilityManager abilityManagerScript;
     
 
     public void Set(int value)
@@ -18,16 +19,16 @@ public class SetCupType : MonoBehaviour
     {
         //Debug.Log("level 2");
 
-        if(SceneManager.GetActiveScene().name.Equals("Level 2")) {
+        if(abilityManagerScript.hasHookStraw) {
             Set(0);
         }
-        if(
-            SceneManager.GetActiveScene().name.Equals("Level 3")) {
+        if(abilityManagerScript.hasBoots) {
             Set(1);
         }
-        if(
-            SceneManager.GetActiveScene().name.Equals("Level 4")) {
-            Debug.Log("here");
+        if(abilityManagerScript.hasRedStraw) {
+            Set(2);
+        }
+        if(abilityManagerScript.hasBelt) {
             Set(2);
         }
 

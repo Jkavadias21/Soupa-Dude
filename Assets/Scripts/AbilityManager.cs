@@ -7,4 +7,5 @@ public class AbilityManager : MonoBehaviour
     public bool hasBoots;
     public bool hasHookStraw;
     public bool hasRedStraw;
+    public bool hasBelt;
 }

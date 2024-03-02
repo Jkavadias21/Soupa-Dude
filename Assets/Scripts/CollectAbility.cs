@@ -46,6 +46,14 @@ public class CollectAbility : MonoBehaviour
             Destroy(gameObject);
             SceneManager.LoadScene("Red Straw Tutorial", LoadSceneMode.Additive);
         }
+        if(collision.gameObject.name == "Soup Player" && gameObject.name == "Belt") {
+            soupRb.velocity = new Vector2(0, 0);
+            soup.GetComponent<SoupMove>().inTutorial = true;
+            abilityManagerScript.hasBelt = true;
+            PlayerPrefs.SetInt("Belt", 1);
+            Destroy(gameObject);
+            SceneManager.LoadScene("Belt Tutorial", LoadSceneMode.Additive);
+        }
         PlayerPrefs.Save();
 
     }
