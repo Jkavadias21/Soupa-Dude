@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] GameObject menu;
-    [SerializeField] AbilityManager abilityManagerScript;
     [SerializeField] GameObject[] TutorialButtons;
     private bool isPaused = false;
 
@@ -41,6 +40,9 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    public void loadMetroid() {
+        SceneManager.LoadScene("Metroid");
+    }
     public void loadTutorial() {
         SceneManager.LoadScene("Tutorial Select");
     }
