@@ -1,6 +1,6 @@
 # Soupa-Dude
 
-**Soupa-Dude** is my debut 2D platformer game developed in Unity. This project features a blend of self-made assets and engaging gameplay mechanics, providing a unique gaming experience.
+**Soupa-Dude** is my first 2D platformer game developed in Unity. This project features a blend of self-made assets and engaging gameplay mechanics, providing a unique gaming experience.
 
 *Note: The game is currently a work in progress and is not fully functional. Some features may be incomplete or require further refinement.*
 
